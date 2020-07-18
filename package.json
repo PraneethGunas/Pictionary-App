@@ -12,7 +12,8 @@
   "dependencies": {
     "@terrylinla/react-native-sketch-canvas": "^0.8.0",
     "react": "16.13.1",
-    "react-native": "0.63.1"
+    "react-native": "0.63.1",
+    "socket.io-client": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.10.5",
