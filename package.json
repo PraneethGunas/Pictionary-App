@@ -5,14 +5,26 @@
   "scripts": {
     "android": "react-native run-android",
     "ios": "react-native run-ios",
+    "ios8": "react-native run-ios --simulator='iPhone 8'",
+    "ios11": "react-native run-ios --simulator='iPhone 11 Pro Max'",
+    "iosall": "yarn ios11 && yarn ios && yarn ios8",
     "start": "react-native start",
     "test": "jest",
     "lint": "eslint ."
   },
   "dependencies": {
+    "@react-native-community/async-storage": "^1.11.0",
+    "@react-native-community/clipboard": "^1.2.3",
+    "@react-native-community/masked-view": "^0.1.10",
+    "@react-navigation/native": "^5.7.1",
+    "@react-navigation/stack": "^5.7.1",
     "@terrylinla/react-native-sketch-canvas": "^0.8.0",
     "react": "16.13.1",
     "react-native": "0.63.1",
+    "react-native-gesture-handler": "^1.6.1",
+    "react-native-reanimated": "^1.9.0",
+    "react-native-safe-area-context": "^3.1.1",
+    "react-native-screens": "^2.9.0",
     "socket.io-client": "^2.3.0"
   },
   "devDependencies": {
