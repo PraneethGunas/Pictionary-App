@@ -1,7 +1,7 @@
 import React, {useRef, useEffect} from 'react';
 import {StyleSheet, View, Button, SafeAreaView} from 'react-native';
 import {SketchCanvas} from '@terrylinla/react-native-sketch-canvas';
-import socket from '../Socket/config';
+import {socket} from '../Socket/config';
 import {SEND_STROKE, UNDO, CLEAR} from '../Socket/constants';
 
 const Canvas = () => {

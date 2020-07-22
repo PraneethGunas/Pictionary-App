@@ -9,18 +9,17 @@ const Room = (props) => {
   const [joinid, setJoinid] = useState('');
   const createRoom = () => {
     const room = new Date().getTime().toString();
-    navigation.navigate('Players', {room});
+    navigation.navigate('Players', {room, creator: true});
   };
   const joinRoom = () => {
     if (joinid) {
       socket.emit(JOIN_ROOM, {room: joinid, name});
-      navigation.navigate('Players', {room: joinid});
+      navigation.navigate('Players', {room: joinid, creator: false});
     }
   };
   return (
     <View style={styles.container}>
       <Button title={'Create Room'} onPress={createRoom} />
-
       <View style={styles.center}>
         <Button title={'Join Room'} onPress={joinRoom} />
         <TextInput

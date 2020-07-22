@@ -12,18 +12,20 @@ import {
 import {socket} from '../Socket/config';
 import {GET_USERS, CREATE_ROOM} from '../Socket/constants';
 const Players = (props) => {
-  const {room} = props.route.params;
+  const {room, creator} = props.route.params;
   const [players, setPlayers] = useState(['You']);
-
   useEffect(() => {
     socket.on('NewUser', (data) => {
       const users = Object.keys(data);
       setPlayers(users);
     });
+    socket.on('startGame', () => {
+      props.navigation.navigate('Canvas');
+    });
   }, []);
   useEffect(() => {
-    socket.emit(CREATE_ROOM, room);
-    socket.emit(GET_USERS, room); // figure out the problem
+    if (creator) socket.emit(CREATE_ROOM, room);
+    socket.emit(GET_USERS, room);
   }, []);
   const onShare = async () => {
     try {
@@ -33,6 +35,9 @@ const Players = (props) => {
     } catch (error) {
       alert(error.message);
     }
+  };
+  const startGame = () => {
+    socket.emit('startGame', room);
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -50,6 +55,7 @@ const Players = (props) => {
             return <Text>{item}</Text>;
           }}
         />
+        <Button title={'Start'} onPress={startGame} />
       </View>
     </SafeAreaView>
   );
