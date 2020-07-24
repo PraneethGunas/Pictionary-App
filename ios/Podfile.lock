@@ -69,6 +69,10 @@ PODS:
     - DoubleConversion
     - glog
   - glog (0.3.5)
+  - lottie-ios (3.1.8)
+  - lottie-react-native (3.5.0):
+    - lottie-ios (~> 3.1.8)
+    - React
   - OpenSSL-Universal (1.0.2.19):
     - OpenSSL-Universal/Static (= 1.0.2.19)
   - OpenSSL-Universal/Static (1.0.2.19)
@@ -314,6 +318,8 @@ PODS:
     - React
   - RNSketchCanvas (0.8.0):
     - React
+  - RNSVG (12.1.0):
+    - React
   - Yoga (1.14.0)
   - YogaKit (1.18.1):
     - Yoga (~> 1.14)
@@ -344,6 +350,7 @@ DEPENDENCIES:
   - FlipperKit/SKIOSNetworkPlugin (~> 0.41.1)
   - Folly (from `../node_modules/react-native/third-party-podspecs/Folly.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
+  - lottie-react-native (from `../node_modules/lottie-react-native`)
   - RCTRequired (from `../node_modules/react-native/Libraries/RCTRequired`)
   - RCTTypeSafety (from `../node_modules/react-native/Libraries/TypeSafety`)
   - React (from `../node_modules/react-native/`)
@@ -374,6 +381,7 @@ DEPENDENCIES:
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
   - "RNSketchCanvas (from `../node_modules/@terrylinla/react-native-sketch-canvas`)"
+  - RNSVG (from `../node_modules/react-native-svg`)
   - Yoga (from `../node_modules/react-native/ReactCommon/yoga`)
 
 SPEC REPOS:
@@ -388,6 +396,7 @@ SPEC REPOS:
     - Flipper-PeerTalk
     - Flipper-RSocket
     - FlipperKit
+    - lottie-ios
     - OpenSSL-Universal
     - YogaKit
 
@@ -404,6 +413,8 @@ EXTERNAL SOURCES:
     :podspec: "../node_modules/react-native/third-party-podspecs/Folly.podspec"
   glog:
     :podspec: "../node_modules/react-native/third-party-podspecs/glog.podspec"
+  lottie-react-native:
+    :path: "../node_modules/lottie-react-native"
   RCTRequired:
     :path: "../node_modules/react-native/Libraries/RCTRequired"
   RCTTypeSafety:
@@ -460,6 +471,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/react-native-screens"
   RNSketchCanvas:
     :path: "../node_modules/@terrylinla/react-native-sketch-canvas"
+  RNSVG:
+    :path: "../node_modules/react-native-svg"
   Yoga:
     :path: "../node_modules/react-native/ReactCommon/yoga"
 
@@ -480,6 +493,8 @@ SPEC CHECKSUMS:
   FlipperKit: bc68102cd4952a258a23c9c1b316c7bec1fecf83
   Folly: b73c3869541e86821df3c387eb0af5f65addfab4
   glog: 40a13f7840415b9a77023fbcae0f1e6f43192af3
+  lottie-ios: 48fac6be217c76937e36e340e2d09cf7b10b7f5f
+  lottie-react-native: 1fb4ce21d6ad37dab8343eaff8719df76035bd93
   OpenSSL-Universal: 8b48cc0d10c1b2923617dfe5c178aa9ed2689355
   RCTRequired: d9b1a9e6fa097744ca3ede59f86a35096df7202b
   RCTTypeSafety: c227cd061983e9e964115afbc4e8730d6a6f1395
@@ -509,6 +524,7 @@ SPEC CHECKSUMS:
   RNReanimated: b5ccb50650ba06f6e749c7c329a1bc3ae0c88b43
   RNScreens: c526239bbe0e957b988dacc8d75ac94ec9cb19da
   RNSketchCanvas: 9c28adb5381543ed55cc98ce6de46479cb3cb12c
+  RNSVG: ce9d996113475209013317e48b05c21ee988d42e
   Yoga: d5bd05a2b6b94c52323745c2c2b64557c8c66f64
   YogaKit: f782866e155069a2cca2517aafea43200b01fd5a
 

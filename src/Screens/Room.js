@@ -1,62 +1,74 @@
-import React, {useState} from 'react';
-import {Button, View, StyleSheet, TextInput, Dimensions} from 'react-native';
-import {socket} from '../Socket/config';
-import {JOIN_ROOM} from '../Socket/constants';
-
+import React from 'react';
+import {
+  View,
+  StyleSheet,
+  Text,
+  KeyboardAvoidingView,
+  Platform,
+} from 'react-native';
+import House from '../assets/images/home.svg';
+import LinearGradient from 'react-native-linear-gradient';
+import {CreateCard} from '../Components/CreateCard';
 const Room = (props) => {
   const {navigation} = props;
-  const [name, setName] = useState();
-  const [joinid, setJoinid] = useState('');
-  const createRoom = () => {
-    const room = new Date().getTime().toString();
-    navigation.navigate('Players', {room, creator: true});
-  };
-  const joinRoom = () => {
-    if (joinid) {
-      socket.emit(JOIN_ROOM, {room: joinid, name});
-      navigation.navigate('Players', {room: joinid, creator: false});
-    }
-  };
   return (
-    <View style={styles.container}>
-      <Button title={'Create Room'} onPress={createRoom} />
-      <View style={styles.center}>
-        <Button title={'Join Room'} onPress={joinRoom} />
-        <TextInput
-          value={joinid}
-          onChangeText={(val) => setJoinid(val)}
-          placeholder={'Room Name'}
-          style={styles.ipBox}
-        />
-        <TextInput
-          value={name}
-          onChangeText={(val) => setName(val)}
-          placeholder={'Your Name'}
-          style={styles.ipBox}
-        />
-      </View>
-    </View>
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+      style={styles.flex}>
+      <LinearGradient
+        start={{x: 0, y: 0}}
+        end={{x: 0, y: 0.21}}
+        colors={['rgba(100,100,100,1)', 'rgba(240,240,240,1)']}
+        style={styles.flex}>
+        <View style={styles.card}>
+          <Text style={styles.title}>CREATE</Text>
+          <House style={styles.house} />
+        </View>
+        <CreateCard navigation={navigation} />
+      </LinearGradient>
+    </KeyboardAvoidingView>
   );
 };
-const {height, width} = Dimensions.get('screen');
 const styles = StyleSheet.create({
-  container: {
+  flex: {
     flex: 1,
-    flexDirection: 'column',
+  },
+  card: {
     alignItems: 'center',
     justifyContent: 'center',
+    paddingVertical: 50,
+    marginTop: 50,
   },
-  ipBox: {
-    paddingHorizontal: 10,
-    marginVertical: 5,
-    width: width / 2,
-    height: 40,
-    borderWidth: 0.5,
-    borderRadius: 5,
+  title: {
+    color: 'rgba(255,255,255,.3)',
+    fontSize: 70,
+    fontWeight: '800',
+    letterSpacing: 8,
   },
-  center: {
-    alignItems: 'center',
+  greet2: {
+    color: 'rgba(0,0,0,.3)',
+    fontSize: 25,
+    fontWeight: '200',
+    letterSpacing: 1,
+    marginBottom: 20,
+  },
+  house: {
+    color: 'rgba(255,255,255,.5)',
+    margin: 10,
   },
 });
 
 export default Room;
+// {/* <Button title={'Join Room'} onPress={joinRoom} /> */}
+//         {/* <TextInput
+//             value={joinid}
+//             onChangeText={(val) => setJoinid(val)}
+//             placeholder={'Room Name'}
+//             style={styles.ipBox}
+//           />
+//           <TextInput
+//             value={name}
+//             onChangeText={(val) => setName(val)}
+//             placeholder={'Your Name'}
+//             style={styles.ipBox}
+//           /> */}

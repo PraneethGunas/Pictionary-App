@@ -5,12 +5,17 @@ import {NavigationContainer} from '@react-navigation/native';
 import Canvas from './src/Screens/Canvas';
 import Room from './src/Screens/Room';
 import Players from './src/Screens/Players';
+import Home from './src/Screens/Home';
 const Stack = createStackNavigator();
 const App = () => {
   return (
     <NavigationContainer>
-      <Stack.Navigator initialRouteName="Room">
-        {/* <Stack.Screen name="Home" component={Home} /> */}
+      <Stack.Navigator
+        initialRouteName="Home"
+        screenOptions={({route, navigation}) => ({
+          headerShown: false,
+        })}>
+        <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Canvas" component={Canvas} />
         <Stack.Screen name="Room" component={Room} />
         <Stack.Screen name="Players" component={Players} />
