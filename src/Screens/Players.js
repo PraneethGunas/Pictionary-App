@@ -12,19 +12,18 @@ import {
 import {socket} from '../Socket/config';
 import {GET_USERS, CREATE_ROOM} from '../Socket/constants';
 const Players = (props) => {
-  const {room, creator} = props.route.params;
-  const [players, setPlayers] = useState(['You']);
+  const {room, creator, name} = props.route.params;
+  const [players, setPlayers] = useState([]);
   useEffect(() => {
-    socket.on('NewUser', (data) => {
-      const users = Object.keys(data);
+    socket.on('NewUser', (users) => {
       setPlayers(users);
     });
     socket.on('startGame', () => {
-      props.navigation.navigate('Canvas');
+      props.navigation.navigate('Canvas', {room});
     });
   }, []);
   useEffect(() => {
-    if (creator) socket.emit(CREATE_ROOM, room);
+    if (creator) socket.emit(CREATE_ROOM, {room, name});
     socket.emit(GET_USERS, room);
   }, []);
   const onShare = async () => {
@@ -55,7 +54,7 @@ const Players = (props) => {
             return <Text>{item}</Text>;
           }}
         />
-        <Button title={'Start'} onPress={startGame} />
+        <Button title={'Start'} onPress={startGame} disabled={!creator} />
       </View>
     </SafeAreaView>
   );
@@ -77,6 +76,7 @@ const styles = StyleSheet.create({
   },
   list: {
     flex: 9,
+    alignItems: 'center',
   },
 });
 

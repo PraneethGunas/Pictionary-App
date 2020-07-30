@@ -1,6 +1,7 @@
 import LottieView from 'lottie-react-native';
 import React from 'react';
 import {View} from 'react-native';
+import {CommonActions} from '@react-navigation/native';
 
 const Home = ({navigation}) => {
   return (
@@ -11,7 +12,9 @@ const Home = ({navigation}) => {
         loop={false}
         speed={2}
         onAnimationFinish={() => {
-          navigation.navigate('Room');
+          navigation.dispatch(
+            CommonActions.reset({index: 0, routes: [{name: 'Room'}]}),
+          );
         }}
         style={{flex: 1, height: '100%', position: 'absolute', left: '-11%'}}
       />

@@ -3,8 +3,8 @@ import {StyleSheet, View, Button, SafeAreaView} from 'react-native';
 import {SketchCanvas} from '@terrylinla/react-native-sketch-canvas';
 import {socket} from '../Socket/config';
 import {SEND_STROKE, UNDO, CLEAR} from '../Socket/constants';
-
-const Canvas = () => {
+const Canvas = (props) => {
+  const {room} = props.route.params;
   const canvas = useRef(null);
   useEffect(() => {
     socket.on(SEND_STROKE, (pathFromSocket) => {
@@ -18,7 +18,7 @@ const Canvas = () => {
     });
   }, []);
   const sendPaths = (stroke) => {
-    socket.emit(SEND_STROKE, stroke);
+    socket.emit(SEND_STROKE, {stroke, room});
   };
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -28,14 +28,14 @@ const Canvas = () => {
             title="Undo"
             onPress={() => {
               canvas.current.undo();
-              socket.emit(UNDO);
+              socket.emit(UNDO, room);
             }}
           />
           <Button
             title="Clear"
             onPress={() => {
               canvas.current.clear();
-              socket.emit(CLEAR);
+              socket.emit(CLEAR, room);
             }}
           />
         </View>

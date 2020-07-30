@@ -12,12 +12,13 @@ import {
 import Go from '../assets/images/arrow-right.svg';
 import {data} from '../Screens/sourceFiles';
 import {socket} from '../Socket/config';
+import {JOIN_ROOM} from '../Socket/constants';
 
 const DisplayPicture = ({handleAnim, scale}) => {
   return (
     <>
       <Animated.FlatList
-        style={{transform: [{scale}, {rotate: '180deg'}], height: 10}}
+        style={[styles.profile, {transform: [{scale}]}]}
         numColumns={3}
         keyExtractor={(item) => item}
         data={Object.keys(data.images)}
@@ -41,46 +42,45 @@ const ImageItem = ({link, handleAnim}) => {
   );
 };
 
-export const CreateCard = (props) => {
+export const JoinCard = (props) => {
   const {navigation, offset} = props;
+  const [active, setActive] = useState(2);
   const [name, setName] = useState();
-  const [active, setActive] = useState(0);
-
-  const createRoom = () => {
-    const room = new Date().getTime().toString();
-    navigation.navigate('Players', {room, creator: true, name});
+  const [room, setRoom] = useState();
+  const joinRoom = () => {
+    if (room) {
+      socket.emit(JOIN_ROOM, {room, name});
+      navigation.navigate('Players', {room, creator: false});
+    }
   };
-  const animation = new Animated.Value(0);
-  const top = animation.interpolate({
-    inputRange: [0, 40, 50],
-    outputRange: [height / 2, height / 1.45, height / 1.45],
-  });
-  const topOff = Animated.add(offset, top);
-  const scale = animation.interpolate({
-    inputRange: [0, 50],
-    outputRange: [0, 1],
-  });
+  const unanimatedHeight = height / 2 - width;
+  const initValue = height - unanimatedHeight;
+  const point = new Animated.Value(initValue);
+  const topOff = Animated.subtract(point, offset);
+  const scale = new Animated.Value(0);
   const handleAnim = (reverse = true, link) => {
-    Animated.timing(animation, {
-      toValue: reverse ? -50 : 0,
+    Animated.timing(point, {
+      toValue: reverse ? height / 1.4 : initValue,
       duration: 400,
       useNativeDriver: false,
     }).start(() => {
-      if (link) {
-        setActive(link - 3);
-        // socket.emit('UpdateProfile', {profileId: link - 3});
-      }
+      if (link) setActive(link - 3);
     });
+    Animated.timing(scale, {
+      toValue: reverse ? 1 : 0,
+      duration: 400,
+      useNativeDriver: false,
+    }).start();
   };
-
   return (
     <Animated.View style={[styles.container, {top: topOff}]}>
       <View>
-        <Text style={styles.greet2}>Hello! Create Room & Invite</Text>
+        <Text style={styles.greet2}>Join Room & Haleluya!</Text>
       </View>
       <DisplayPicture handleAnim={handleAnim} scale={scale} />
       <View style={styles.details}>
-        <TouchableOpacity onPress={() => handleAnim(!animation._value)}>
+        <TouchableOpacity
+          onPress={() => handleAnim(point._value === initValue ? true : false)}>
           <Image
             source={data.images[active]}
             style={[styles.img, {marginBottom: 30}]}
@@ -94,9 +94,15 @@ export const CreateCard = (props) => {
           placeholder={'You got a name?'}
           style={styles.ipBox}
         />
+        <TextInput
+          value={room}
+          onChangeText={(val) => setRoom(val)}
+          placeholder={'Enter room ID'}
+          style={styles.ipBox}
+        />
       </View>
       <View style={styles.btnContainer}>
-        <TouchableOpacity onPress={createRoom} style={styles.create}>
+        <TouchableOpacity onPress={joinRoom} style={styles.create}>
           <Go style={{color: 'black'}} />
         </TouchableOpacity>
       </View>
@@ -129,9 +135,9 @@ const styles = StyleSheet.create({
   ipBox: {
     color: 'grey',
     paddingLeft: 20,
-    marginVertical: 5,
+    marginVertical: 10,
     width: width / 1.5,
-    height: 45,
+    height: 40,
     borderWidth: 0.1,
     borderRadius: 20,
     backgroundColor: 'rgba(240,240,240,1)',
@@ -147,6 +153,10 @@ const styles = StyleSheet.create({
     marginTop: 10,
     height: 50,
     width: 50,
+  },
+  profile: {
+    height: 0,
+    margin: '10%',
   },
   greet2: {
     color: 'rgba(0,0,0,.3)',
