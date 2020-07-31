@@ -45,11 +45,11 @@ const ImageItem = ({link, handleAnim}) => {
 export const JoinCard = (props) => {
   const {navigation, offset} = props;
   const [active, setActive] = useState(2);
-  const [name, setName] = useState();
-  const [room, setRoom] = useState();
+  const [name, setName] = useState('');
+  const [room, setRoom] = useState('');
   const joinRoom = () => {
     if (room) {
-      socket.emit(JOIN_ROOM, {room, name});
+      socket.emit(JOIN_ROOM, {room, name, profileId: active});
       navigation.navigate('Players', {room, creator: false});
     }
   };
@@ -64,7 +64,9 @@ export const JoinCard = (props) => {
       duration: 400,
       useNativeDriver: false,
     }).start(() => {
-      if (link) setActive(link - 3);
+      if (link) {
+        setActive(link - 3);
+      }
     });
     Animated.timing(scale, {
       toValue: reverse ? 1 : 0,
@@ -102,7 +104,10 @@ export const JoinCard = (props) => {
         />
       </View>
       <View style={styles.btnContainer}>
-        <TouchableOpacity onPress={joinRoom} style={styles.create}>
+        <TouchableOpacity
+          disabled={!name.length && !room.length}
+          onPress={joinRoom}
+          style={styles.create}>
           <Go style={{color: 'black'}} />
         </TouchableOpacity>
       </View>

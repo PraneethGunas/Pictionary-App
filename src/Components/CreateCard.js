@@ -11,7 +11,6 @@ import {
 } from 'react-native';
 import Go from '../assets/images/arrow-right.svg';
 import {data} from '../Screens/sourceFiles';
-import {socket} from '../Socket/config';
 
 const DisplayPicture = ({handleAnim, scale}) => {
   return (
@@ -43,12 +42,17 @@ const ImageItem = ({link, handleAnim}) => {
 
 export const CreateCard = (props) => {
   const {navigation, offset} = props;
-  const [name, setName] = useState();
+  const [name, setName] = useState('');
   const [active, setActive] = useState(0);
 
   const createRoom = () => {
     const room = new Date().getTime().toString();
-    navigation.navigate('Players', {room, creator: true, name});
+    navigation.navigate('Players', {
+      room,
+      creator: true,
+      name,
+      profileId: active,
+    });
   };
   const animation = new Animated.Value(0);
   const top = animation.interpolate({
@@ -68,7 +72,6 @@ export const CreateCard = (props) => {
     }).start(() => {
       if (link) {
         setActive(link - 3);
-        // socket.emit('UpdateProfile', {profileId: link - 3});
       }
     });
   };
@@ -96,7 +99,10 @@ export const CreateCard = (props) => {
         />
       </View>
       <View style={styles.btnContainer}>
-        <TouchableOpacity onPress={createRoom} style={styles.create}>
+        <TouchableOpacity
+          onPress={createRoom}
+          style={styles.create}
+          disabled={!name.length}>
           <Go style={{color: 'black'}} />
         </TouchableOpacity>
       </View>
